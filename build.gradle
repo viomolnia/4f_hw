@@ -1,0 +1,109 @@
+buildscript {
+    ext {
+        springBootVersion = '1.2.7.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath('io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE')
+
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'io.spring.dependency-management'
+
+jar {
+    baseName = 'homework'
+    version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+buildscript {
+    ext {
+        springBootVersion = '1.2.7.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath('io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE')
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'io.spring.dependency-management'
+
+jar {
+    baseName = 'homework'
+    version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+ext.deps = [
+        springBootVersion:'1.2.7.RELEASE',
+        jacksonVersion:'2.6.3',
+        feignVersion:'8.12.1',
+        JUnitVersion:'4.11',
+        mockitoVersion:'1.9.5',
+        langVersion:'2.6',
+        hsqldbVersion:'2.3.1',
+        connectorVersion:'5.1.28',
+        liquibaseVersion:'3.2.2',
+        guavaVersion:'18.0',
+        javaxActivationVersion:'1.1.1'
+]
+
+dependencies {
+    compile 'commons-lang:commons-lang:' + deps.langVersion
+    compile 'org.hsqldb:hsqldb:' + deps.hsqldbVersion
+    compile 'mysql:mysql-connector-java:' + deps.connectorVersion
+    compile 'org.liquibase:liquibase-core:' + deps.liquibaseVersion
+    compile 'com.google.guava:guava:' + deps.guavaVersion
+    compile 'javax.activation:activation:' + deps.javaxActivationVersion
+
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa:' + deps.springBootVersion
+    compile 'org.springframework.boot:spring-boot-starter-jersey:' + deps.springBootVersion
+    compile 'org.springframework.boot:spring-boot-starter-test:' + deps.springBootVersion
+    compile 'org.springframework.boot:spring-boot-starter-web:' + deps.springBootVersion
+
+    compile 'com.fasterxml.jackson.core:jackson-core:' + deps.jacksonVersion
+    compile 'com.fasterxml.jackson.core:jackson-databind:' + deps.jacksonVersion
+    compile 'com.fasterxml.jackson.core:jackson-annotations:' + deps.jacksonVersion
+
+    testCompile 'com.netflix.feign:feign-core:' + deps.feignVersion
+    testCompile 'com.netflix.feign:feign-jackson:' + deps.feignVersion
+    testCompile 'com.netflix.feign:feign-jaxrs:' + deps.feignVersion
+
+    testCompile 'junit:junit:' + deps.JUnitVersion
+    testCompile 'org.mockito:mockito-all:' + deps.mockitoVersion
+}
+
+
+eclipse {
+    classpath {
+        containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+        containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.7'
+}

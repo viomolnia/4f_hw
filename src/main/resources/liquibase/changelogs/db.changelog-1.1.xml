@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+
+    <changeSet id="3" author="anna" context="main">
+        <createSequence sequenceName="loan_seq" />
+    </changeSet>
+
+    <changeSet id="4" author="anna" context="main">
+        <createTable tableName="loans">
+
+            <column name="loan_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="term" type="INTEGER">
+            </column>
+
+            <column name="amount" type="NUMERIC">
+            </column>
+
+            <column name="indexed_amount" type="NUMERIC">
+            </column>
+
+            <column name="interest" type="NUMERIC">
+            </column>
+
+            <column name="date_taken" type="varchar(50)">
+            </column>
+
+            <column name="date_return" type="varchar(50)">
+            </column>
+
+            <column name="user_id" type="BIGINT" autoIncrement="false"/>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id = "5" author="anna" context="main">
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="loans"
+                                 constraintName="fk_loan_user"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="user_id"
+                                 referencedTableName="users"/>
+    </changeSet>
+
+</databaseChangeLog>

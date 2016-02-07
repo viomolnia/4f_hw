@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+
+    <changeSet id="6" author="anna" context="main">
+        <createSequence sequenceName="extension_seq" />
+    </changeSet>
+
+    <changeSet id="7" author="anna" context="main">
+        <createTable tableName="extensions">
+
+            <column name="extension_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="term" type="INTEGER">
+            </column>
+
+            <column name="date_ext_taken" type="varchar(50)">
+            </column>
+
+            <column name="date_ext_return" type="varchar(50)">
+            </column>
+
+            <column name="loan_id" type="BIGINT" autoIncrement="false"/>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id = "8" author="anna" context="main">
+        <addForeignKeyConstraint baseColumnNames="loan_id"
+                                 baseTableName="extensions"
+                                 constraintName="fk_extension_loan"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="loan_id"
+                                 referencedTableName="loans"/>
+    </changeSet>
+
+</databaseChangeLog>
