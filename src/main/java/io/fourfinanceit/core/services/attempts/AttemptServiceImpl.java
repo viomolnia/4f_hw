@@ -1,4 +1,4 @@
-package io.fourfinanceit.core.services.services;
+package io.fourfinanceit.core.services.attempts;
 
 import io.fourfinanceit.core.database.AttemptDAO;
 import io.fourfinanceit.core.domain.attempt.Attempt;
@@ -24,11 +24,7 @@ public class AttemptServiceImpl implements AttemptService{
 
     @Override
     public Attempt get(String ip) {
-        if(!attemptDAO.getTimesByIp(ip).equals(null)){
-            return attemptDAO.getTimesByIp(ip);
-        } else {
-            return null;
-        }
+        return attemptDAO.getTimesByIp(ip);
     }
 
     @Override

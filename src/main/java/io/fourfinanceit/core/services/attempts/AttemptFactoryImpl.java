@@ -1,4 +1,4 @@
-package io.fourfinanceit.core.services.services;
+package io.fourfinanceit.core.services.attempts;
 
 import io.fourfinanceit.core.database.AttemptDAO;
 import io.fourfinanceit.core.domain.attempt.Attempt;
@@ -21,7 +21,7 @@ public class AttemptFactoryImpl implements AttemptFactory{
 
         Attempt attempt = new Attempt();
         attempt.setIp(ip);
-        attempt.setTimes(1);
+        attempt.setTimes(0);
         attempt.setLastDate(Calendar.getInstance());
 
         attemptDAO.create(attempt);

@@ -5,6 +5,7 @@ package io.fourfinanceit.core.database.loans;
  */
 
 import io.fourfinanceit.config.HomeworkApplication;
+import io.fourfinanceit.core.database.AttemptDAO;
 import io.fourfinanceit.core.database.LoanDAO;
 import io.fourfinanceit.core.database.UserDAO;
 import org.hibernate.SessionFactory;
@@ -29,5 +30,7 @@ public abstract class DatabaseHibernateTest {
     @Autowired
     protected LoanDAO loanDAO;
 
+    @Autowired
+    protected AttemptDAO attemptDAO;
 
 }

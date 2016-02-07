@@ -1,8 +1,9 @@
-package io.fourfinanceit.core.database.users;
+package io.fourfinanceit.core.database.attempts;
 
 /**
  * Created by Anna on 06.02.2016.
  */
+
 import io.fourfinanceit.config.HomeworkApplication;
 import io.fourfinanceit.core.database.AttemptDAO;
 import io.fourfinanceit.core.database.LoanDAO;
@@ -21,6 +22,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public abstract class DatabaseHibernateTest {
 
     @Autowired
+    protected SessionFactory sessionFactory;
+
+    @Autowired
     protected UserDAO userDAO;
 
     @Autowired
@@ -28,4 +32,6 @@ public abstract class DatabaseHibernateTest {
 
     @Autowired
     protected AttemptDAO attemptDAO;
+
+
 }

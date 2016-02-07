@@ -6,7 +6,6 @@ package io.fourfinanceit.core.services.users;
 
 import io.fourfinanceit.core.database.UserDAO;
 import io.fourfinanceit.core.domain.user.User;
-import io.fourfinanceit.core.services.users.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -28,7 +27,7 @@ public class UserServiceImplTest {
     private static final String PERSCODE = "000000-11111";
 
     @Test
-    public void getShouldReturnNewUser() {
+    public void getShouldReturnUser() {
 
         User gotUser = userService.get(PERSCODE);
         InOrder inOrder = inOrder(userDAO);

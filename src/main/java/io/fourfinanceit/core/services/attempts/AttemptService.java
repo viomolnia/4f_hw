@@ -1,4 +1,4 @@
-package io.fourfinanceit.core.services.services;
+package io.fourfinanceit.core.services.attempts;
 
 import io.fourfinanceit.core.domain.attempt.Attempt;
 

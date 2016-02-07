@@ -6,8 +6,8 @@ import io.fourfinanceit.core.commands.loans.GetLoanCommand;
 import io.fourfinanceit.core.commands.loans.GetLoanResult;
 import io.fourfinanceit.core.dto.loan.LoanDTO;
 import io.fourfinanceit.core.services.CommandExecutor;
-import io.fourfinanceit.core.services.services.AttemptFactory;
-import io.fourfinanceit.core.services.services.AttemptService;
+import io.fourfinanceit.core.services.attempts.AttemptFactory;
+import io.fourfinanceit.core.services.attempts.AttemptService;
 import io.fourfinanceit.core.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import java.util.Calendar;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -44,39 +45,40 @@ public class LoanResourceImpl {
 
     @Context HttpServletRequest requestContext;
 
+    private static String reqIP;
+
     @GET
     public boolean activate(@Context HttpServletRequest requestContext){
-//        String reqIP = requestContext.getRemoteAddr();
-//        Calendar currentDate = Calendar.getInstance();
-//        Calendar lastDate;
-//        int times;
-//
-//        //if there have not been any applies from this IP yet
-//        if(attemptService.get(reqIP).equals(null)){
-//            attemptFactory.create(reqIP);
-//            return true;
-//
-//        } else {
-//            lastDate = attemptService.get(reqIP).getLastDate();
-//
-//            //if there has been an apply, but not today - delete previous and create new
-//            if(lastDate.get(Calendar.DAY_OF_YEAR) != currentDate.get(Calendar.DAY_OF_YEAR)){
-//                attemptService.delete(reqIP);
-//                attemptFactory.create(reqIP);
-//                return true;
-//            } else {
-//                times = attemptService.get(reqIP).getTimes();
-//
-//                //if there has been an apply from this IP today, but times were less than 3
-//                if(times < 3){
-//                    attemptService.updateTimes(reqIP);
-//                    return true;
-//                } else {
-//                    return false;
-//                }
-//            }
-//        }
-        return true;
+        reqIP = requestContext.getRemoteAddr();
+        Calendar currentDate = Calendar.getInstance();
+        Calendar lastDate;
+        int times;
+
+        //if there have not been any applies from this IP yet
+        if(attemptService.get(reqIP) == null){
+            attemptFactory.create(reqIP);
+            return true;
+
+        } else {
+            lastDate = attemptService.get(reqIP).getLastDate();
+
+            //if there has been an apply, but not today - delete previous and create new
+            if(lastDate.get(Calendar.DAY_OF_YEAR) != currentDate.get(Calendar.DAY_OF_YEAR)){
+                attemptService.delete(reqIP);
+                attemptFactory.create(reqIP);
+                return true;
+            } else {
+                times = attemptService.get(reqIP).getTimes();
+
+                //if there has been an apply from this IP today, but times were less than 3
+                if(times < 3){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        //return true;
     }
 
     @POST
@@ -98,6 +100,7 @@ public class LoanResourceImpl {
                 );
 
                 CreateLoanResult result = commandExecutor.execute(command);
+                attemptService.updateTimes(reqIP);
                 return result.getLoan();
             } else {
                 throw new NullPointerException("Can not apply to loan for unregistered user");
