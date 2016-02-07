@@ -1,13 +1,20 @@
 package io.fourfinanceit.rest.loans;
 
+import io.fourfinanceit.core.commands.extensions.CreateExtensionCommand;
+import io.fourfinanceit.core.commands.extensions.CreateExtensionResult;
+import io.fourfinanceit.core.commands.extensions.ExtensionConverter;
 import io.fourfinanceit.core.commands.loans.CreateLoanCommand;
 import io.fourfinanceit.core.commands.loans.CreateLoanResult;
 import io.fourfinanceit.core.commands.loans.GetLoanCommand;
 import io.fourfinanceit.core.commands.loans.GetLoanResult;
+import io.fourfinanceit.core.domain.extension.Extension;
+import io.fourfinanceit.core.domain.loan.Loan;
+import io.fourfinanceit.core.dto.extension.ExtensionDTO;
 import io.fourfinanceit.core.dto.loan.LoanDTO;
 import io.fourfinanceit.core.services.CommandExecutor;
 import io.fourfinanceit.core.services.attempts.AttemptFactory;
 import io.fourfinanceit.core.services.attempts.AttemptService;
+import io.fourfinanceit.core.services.loans.LoanService;
 import io.fourfinanceit.core.services.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,6 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -42,6 +51,9 @@ public class LoanResourceImpl {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private LoanService loanService;
 
     @Context HttpServletRequest requestContext;
 
@@ -119,5 +131,49 @@ public class LoanResourceImpl {
         GetLoanCommand command = new GetLoanCommand(loanId);
         GetLoanResult result = commandExecutor.execute(command);
         return result.getLoan();
+    }
+
+    @GET
+    @Consumes(APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
+    @Path("/{loanId}/get_extensions")
+    public Set<ExtensionDTO> getLoanExtensions(@PathParam("loanId") Long loanId) {
+        Set<ExtensionDTO> resultSetDTO = new HashSet<ExtensionDTO>();
+        Set<Extension> resultSet = new HashSet<Extension>();
+        Loan loan = loanService.get(loanId);
+
+        if(loan.getExtensions() != null){
+            resultSet = loan.getExtensions();
+        } else{
+            return resultSetDTO;
+        }
+
+        for(Extension i:resultSet){
+            resultSetDTO.add(new ExtensionConverter().convert(i));
+        }
+        return resultSetDTO;
+    }
+
+    @POST
+    @Consumes(APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
+    @Path("/{loanId}/extend")
+    public ExtensionDTO extendLoan(@PathParam("loanId") Long loanId, ExtensionDTO extensionDTO) {
+        Long id = extensionDTO.getLoanId();
+        if(id==null){
+           id = extensionDTO.getLoanDTO().getLoanId();
+        }
+
+        if(loanService.get(id) != null){
+            CreateExtensionCommand command = new CreateExtensionCommand(
+                extensionDTO.getWeeksCount(),
+                id
+            );
+
+            CreateExtensionResult result = commandExecutor.execute(command);
+                return result.getExtension();
+        } else {
+            throw new NullPointerException("Can not add extension to loan, that doesn't exist");
+        }
     }
 }

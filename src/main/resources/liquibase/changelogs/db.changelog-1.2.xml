@@ -18,13 +18,16 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
 
-            <column name="term" type="INTEGER">
+            <column name="weeks_count" type="INTEGER">
             </column>
 
             <column name="date_ext_taken" type="varchar(50)">
             </column>
 
             <column name="date_ext_return" type="varchar(50)">
+            </column>
+
+            <column name="cost" type="NUMBER">
             </column>
 
             <column name="loan_id" type="BIGINT" autoIncrement="false"/>

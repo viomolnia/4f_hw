@@ -1,37 +1,27 @@
-package io.fourfinanceit.core.domain.extension;
+package io.fourfinanceit.core.dto.extension;
 
-/**
- * Created by Anna on 05.02.2016.
- */
-import io.fourfinanceit.core.domain.loan.Loan;
+import io.fourfinanceit.core.dto.loan.LoanDTO;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Entity
-@Table(name="extensions")
-public class Extension {
+/**
+ * Created by Anna on 07.02.2016.
+ */
+public class ExtensionDTO {
 
-    @Id
-    @Column(name="extension_id",columnDefinition = "int(11)")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long extensionId;
 
-    @Column(name="weeks_count", columnDefinition = "INTEGER")
     private int weeksCount;
 
-    @Column(name="date_ext_taken", columnDefinition = "CHAR(50)")
     private String dateTaken;
 
-    @Column(name="date_ext_return", columnDefinition = "CHAR(50)")
     private String dateReturn;
 
-    @Column(name="cost", columnDefinition = "NUMERIC")
     private BigDecimal cost;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "loan_id")
-    private Loan loan;
+    private LoanDTO loanDTO;
+
+    private Long loanId;
 
     public Long getExtensionId() {
         return extensionId;
@@ -65,12 +55,20 @@ public class Extension {
         this.dateReturn = dateReturn;
     }
 
-    public Loan getLoan() {
-        return loan;
+    public LoanDTO getLoanDTO() {
+        return loanDTO;
     }
 
-    public void setLoan(Loan loan) {
-        this.loan = loan;
+    public void setLoanDTO(LoanDTO loanDTO) {
+        this.loanDTO = loanDTO;
+    }
+
+    public Long getLoanId() {
+        return loanId;
+    }
+
+    public void setLoanId(Long loanId) {
+        this.loanId = loanId;
     }
 
     public BigDecimal getCost() {

@@ -48,7 +48,7 @@ public class LoanValidatorImpl implements LoanValidator {
 
     private void validateCalAmount(int hour, BigDecimal amount) {
         BigDecimal maxAmount2 = new BigDecimal(Constants.MaxAmount2.getValue());
-        checkArgument(amount.compareTo(maxAmount2)<=0 && hour > 6, "Loans with max amount are not allowed after 00:00");
+        checkArgument(amount.compareTo(maxAmount2)<=0 || hour > 6, "Loans with max amount are not allowed after 00:00");
     }
 
 }

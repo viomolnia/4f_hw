@@ -16,18 +16,8 @@ import javax.ws.rs.ApplicationPath;
 public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
-
-//        //register(ClientResourceImpl.class);
         register(UserResourceImpl.class);
         register(LoanResourceImpl.class);
-//        //register(AttemptResourceImpl.class);
-//        //register(AuthenticationResourceImpl.class);
-//        register(IdeaResourceImpl.class);
-//        register(IdeaResourceContextImpl.class);
-//
-//        //register(RestAuthenticationFilter.class); //comment this for passing REST tests
-//
-//        register(CORSResponseFilter.class);
     }
 
 }
