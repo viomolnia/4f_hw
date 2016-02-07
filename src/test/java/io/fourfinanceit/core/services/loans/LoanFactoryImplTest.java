@@ -47,14 +47,16 @@ public class LoanFactoryImplTest {
 
     private static final int TERM = 20;
     private static final BigDecimal AMOUNT = new BigDecimal("100");
+    private static int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+
 
     @Test
     public void createShouldInvokeValidator() {
         User user = userFactory.create(NAME, SURNAME, PERSONCODE16);
         doReturn(user)
-                .when(userDAO).getById(user.getUserId());
-        loanFactory.create(TERM, AMOUNT, user.getUserId());
-        verify(loanValidator).validate(TERM, AMOUNT);
+                .when(userDAO).getById(2L);
+        loanFactory.create(TERM, AMOUNT, 2L);
+        verify(loanValidator).validate(TERM, AMOUNT, 2L, hour);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -63,8 +65,8 @@ public class LoanFactoryImplTest {
         doReturn(user)
                 .when(userDAO).getById(user.getUserId());
         doThrow(new IllegalArgumentException())
-                .when(loanValidator).validate(TERM, AMOUNT);
-        loanFactory.create(TERM, AMOUNT, user.getUserId());
+                .when(loanValidator).validate(TERM, AMOUNT, 2L, hour);
+        loanFactory.create(TERM, AMOUNT, 2L);
     }
 
 
@@ -72,12 +74,12 @@ public class LoanFactoryImplTest {
     public void createShouldPersistLoanAfterValidation() {
         User user = userFactory.create(NAME, SURNAME, PERSONCODE18);
         doReturn(user)
-                .when(userDAO).getById(user.getUserId());
+                .when(userDAO).getById(2L);
 
-        Loan loan = loanFactory.create(TERM, AMOUNT, user.getUserId());
+        Loan loan = loanFactory.create(TERM, AMOUNT, 2L);
         InOrder inOrder = inOrder( loanValidator, loanDAO);
 
-        inOrder.verify(loanValidator).validate(TERM, AMOUNT);
+        inOrder.verify(loanValidator).validate(TERM, AMOUNT, 2L, hour);
         inOrder.verify(loanDAO).create(loan);
     }
 

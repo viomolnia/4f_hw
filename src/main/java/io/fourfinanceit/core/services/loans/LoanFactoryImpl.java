@@ -29,7 +29,9 @@ public class LoanFactoryImpl implements LoanFactory {
     @Override
     public Loan create(int term, BigDecimal amount, Long userId) {
 
-        loanValidator.validate(term, amount);
+        Calendar cal = Calendar.getInstance();
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        loanValidator.validate(term, amount, userId, hour);
 
         //selecting interest and counting indexed amount
         BigDecimal interest = selectInterest(amount);

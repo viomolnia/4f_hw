@@ -7,6 +7,6 @@ import java.math.BigDecimal;
  */
 public interface LoanValidator {
 
-    void validate(int term, BigDecimal amount);
+    void validate(int term, BigDecimal amount, Long userId, int hour);
 
 }

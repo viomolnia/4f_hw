@@ -2,9 +2,7 @@ package io.fourfinanceit.core.database.users;
 
 import io.fourfinanceit.core.database.UserDAO;
 import io.fourfinanceit.core.domain.user.User;
-import io.fourfinanceit.core.services.users.UserValidator;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -15,12 +13,6 @@ import javax.transaction.Transactional;
 @Component
 @Transactional
 public class UserDAOImpl extends CRUDOperationDAOImpl<User, Long> implements UserDAO {
-
-    int maxFailedLoginAttempt = 5;
-
-    @Autowired
-    private UserValidator userValidator;
-
 
     @Override
     public User getUserByPersonCode(String personCode){
