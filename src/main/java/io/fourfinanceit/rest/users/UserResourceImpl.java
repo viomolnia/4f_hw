@@ -9,6 +9,7 @@ import io.fourfinanceit.core.commands.users.CreateUserCommand;
 import io.fourfinanceit.core.commands.users.CreateUserResult;
 import io.fourfinanceit.core.commands.users.GetUserCommand;
 import io.fourfinanceit.core.commands.users.GetUserResult;
+import io.fourfinanceit.core.domain.extension.Extension;
 import io.fourfinanceit.core.domain.loan.Loan;
 import io.fourfinanceit.core.domain.user.User;
 import io.fourfinanceit.core.dto.loan.LoanDTO;
@@ -19,7 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
+import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -89,6 +93,43 @@ public class UserResourceImpl {
             resultSetDTO.add(new LoanConverter().convert(i));
         }
         return resultSetDTO;
+    }
+
+    @GET
+    @Path("/{userId}/get_total_debt")
+    public BigDecimal getTotalDebt(@PathParam("userId") Long userId) {
+
+        Loan lastLoan = (Loan) getLastElement(userService.get(userId).getLoans());
+        BigDecimal totalDebt = lastLoan.getIndexedAmount();
+
+        //if loans has no extensions
+        if(lastLoan.getExtensions() == null || lastLoan.getExtensions().size() == 0){
+            return totalDebt;
+        } else {
+            Set<Extension> lastLoanExtensions = lastLoan.getExtensions();
+            totalDebt = totalDebt.add(extensionsTotalCost(lastLoanExtensions));
+            return totalDebt;
+        }
+    }
+
+    public static Object getLastElement(final Collection c) {
+        final Iterator itr = c.iterator();
+        Object lastElement = itr.next();
+        while(itr.hasNext()) {
+            lastElement=itr.next();
+        }
+        return lastElement;
+    }
+
+    public static BigDecimal extensionsTotalCost(final Collection c) {
+        final Iterator itr = c.iterator();
+        BigDecimal totalCost = new BigDecimal(0);
+        Extension lastElement = (Extension) itr.next();
+        while(itr.hasNext()) {
+            lastElement= (Extension) itr.next();
+            totalCost = totalCost.add(lastElement.getCost());
+        }
+        return totalCost;
     }
 
 }

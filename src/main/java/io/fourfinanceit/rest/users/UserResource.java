@@ -8,6 +8,7 @@ import io.fourfinanceit.core.dto.loan.LoanDTO;
 import io.fourfinanceit.core.dto.user.UserDTO;
 
 import javax.ws.rs.*;
+import java.math.BigDecimal;
 import java.util.Set;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -31,5 +32,9 @@ public interface UserResource {
     @Produces(APPLICATION_JSON)
     @Path("/users/{userId}/get_loans")
     Set<LoanDTO> getUserLoans(@PathParam("userId") Long userId);
+
+    @GET
+    @Path("/users/{userId}/get_total_debt")
+    BigDecimal getTotalDebt(@PathParam("userId") Long userId);
 
 }
