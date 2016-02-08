@@ -14,7 +14,10 @@ public class ExtensionValidatorImpl implements ExtensionValidator{
 
     @Override
     public void validate(int weeksCount) {
-        checkArgument(weeksCount > 0, "Loan extension term must be at least one week");
+        validateExtTerm(weeksCount);
+    }
 
+    private void validateExtTerm(int weeksCount) {
+        checkArgument(weeksCount > 0, "Loan extension term must be at least one week");
     }
 }

@@ -25,12 +25,13 @@ public class ExtensionFactoryImpl implements ExtensionFactory{
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
-    @Autowired
-    private ExtensionDAO extensionDAO;
+    @Autowired private ExtensionDAO extensionDAO;
+    @Autowired private ExtensionValidator extensionValidator;
     @Autowired private LoanDAO loanDAO;
 
     @Override
     public Extension create(int weeksCount, Long loanId) {
+        extensionValidator.validate(weeksCount);
         Loan loan = loanDAO.getById(loanId);
         //getting date of return of loan
         Calendar calendarDateReturnLoan = Calendar.getInstance();

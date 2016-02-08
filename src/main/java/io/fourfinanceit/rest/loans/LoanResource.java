@@ -6,6 +6,7 @@ import io.fourfinanceit.core.dto.loan.LoanDTO;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import java.math.BigDecimal;
 import java.util.Set;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -39,6 +40,12 @@ public interface LoanResource {
     @Produces(APPLICATION_JSON)
     @Path("/loans/{loanId}/extend")
     ExtensionDTO extendLoan(@PathParam("loanId") Long loanId, ExtensionDTO extensionDTO);
+
+    @GET
+    @Consumes(APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
+    @Path("/loans/{loanId}/get_total_debt")
+    BigDecimal getLoanTotalDebt(@PathParam("loanId") Long loanId);
 
     @GET
     void activate(@Context HttpServletRequest requestContext);
