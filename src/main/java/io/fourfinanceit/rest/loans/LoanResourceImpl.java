@@ -82,7 +82,7 @@ public class LoanResourceImpl {
                 times = attemptService.get(reqIP).getTimes();
 
                 //if there has been an apply from this IP today, but times were less than 3
-                if(times < 1000){
+                if(times < 100){
                     return true;
                 } else {
                     return false;

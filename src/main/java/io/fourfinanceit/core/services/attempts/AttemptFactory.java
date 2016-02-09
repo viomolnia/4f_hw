@@ -7,6 +7,7 @@ import io.fourfinanceit.core.domain.attempt.Attempt;
  */
 public interface AttemptFactory {
 
+    //Creates a record of attempt to call creating a loan
     Attempt create(String ip);
 
 }

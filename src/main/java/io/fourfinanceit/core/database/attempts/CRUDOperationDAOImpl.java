@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
-import java.util.List;
 
 @Transactional
 abstract class CRUDOperationDAOImpl<E, K extends Serializable> implements CRUDOperationDAO<E, K> {
@@ -59,11 +58,6 @@ abstract class CRUDOperationDAOImpl<E, K extends Serializable> implements CRUDOp
     @Override
     public void delete(E entity) {
         getCurrentSession().delete(entity);
-    }
-
-    @Override
-    public List<E> getAll() {
-        return getCurrentSession().createCriteria(daoType).list();
     }
 
 }

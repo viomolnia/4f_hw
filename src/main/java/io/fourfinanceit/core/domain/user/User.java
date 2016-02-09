@@ -9,6 +9,8 @@ import io.fourfinanceit.core.domain.loan.Loan;
 import javax.persistence.*;
 import java.util.Set;
 
+//Entity for storing user, that will take loans
+
 @Entity
 @Table(name="users")
 public class User {

@@ -17,36 +17,44 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public interface LoanResource {
 
+
+    // rest call to create loan
     @POST
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Path("/loans/create")
     LoanDTO create(LoanDTO loanDTO);
 
+    // rest call for getting loan by ID
     @GET
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Path("/loans/get/{loanId}")
     LoanDTO get(@PathParam("loanId") Long loanId);
 
+    // rest call for getting loan's extensions
     @GET
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Path("/loans/{loanId}/get_extensions")
     Set<ExtensionDTO> getLoanExtensions(@PathParam("loanId") Long loanId);
 
+    // rest call for extending a loan
     @POST
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Path("/loans/{loanId}/extend")
     ExtensionDTO extendLoan(@PathParam("loanId") Long loanId, ExtensionDTO extensionDTO);
 
+    //rest call for getting total debt of definite loan
     @GET
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Path("/loans/{loanId}/get_total_debt")
     BigDecimal getLoanTotalDebt(@PathParam("loanId") Long loanId);
 
+    //initializing request for creating loan (getting caller IP
+    // and previous attempts to create loan from this IP)
     @GET
     void activate(@Context HttpServletRequest requestContext);
 

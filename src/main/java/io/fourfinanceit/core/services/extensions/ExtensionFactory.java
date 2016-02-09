@@ -7,6 +7,7 @@ import io.fourfinanceit.core.domain.extension.Extension;
  */
 public interface ExtensionFactory {
 
+    //creates extension for definite loan
     Extension create(int weeksCount, Long loanId);
 
 

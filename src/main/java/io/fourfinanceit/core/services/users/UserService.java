@@ -7,8 +7,10 @@ import io.fourfinanceit.core.domain.user.User;
  */
 public interface UserService {
 
+    // get user by his ID
     User get(Long userId);
 
+    //get user by his person code
     User get(String personCode);
 
 }

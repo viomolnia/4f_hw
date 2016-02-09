@@ -3,8 +3,6 @@ package io.fourfinanceit.core.database;
 /**
  * Created by Anna on 03.02.2016.
  */
-import java.util.List;
-
 public interface CRUDOperationDAO<E, K> {
 
     void create(E entity);
@@ -16,7 +14,5 @@ public interface CRUDOperationDAO<E, K> {
     void update(E entity);
 
     void delete(E entity);
-
-    List<E> getAll();
 
 }

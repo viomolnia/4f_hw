@@ -11,6 +11,8 @@ import java.util.Set;
  * Created by Anna on 03.02.2016.
  */
 
+//Entity for storing loans taken by user
+
 @Entity
 @Table(name="loans")
 public class Loan {
@@ -18,29 +20,29 @@ public class Loan {
     @Id
     @Column(name="loan_id",columnDefinition = "int(11)")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long loanId;
+    private Long loanId; //id generated while adding new instance
 
     @Column(name="term", columnDefinition = "INTEGER")
-    private int term;
+    private int term=10; //default term for loan in days
 
     @Column(name="amount", columnDefinition = "NUMERIC")
-    private BigDecimal amount;
+    private BigDecimal amount; //loan amount, that is being taken
 
     @Column(name="indexed_amount", columnDefinition = "NUMERIC")
-    private BigDecimal indexedAmount;
+    private BigDecimal indexedAmount; //indexed amount amount to return according to interest
 
     @Column(name="interest", columnDefinition = "NUMERIC")
-    private BigDecimal interest;
+    private BigDecimal interest; //loan amount indexing interest according to amount size
 
     @Column(name="date_taken", columnDefinition = "CHAR(50)")
-    private String dateTaken;
+    private String dateTaken;//  date and time loan was taken
 
     @Column(name="date_return", columnDefinition = "CHAR(50)")
-    private String dateReturn;
+    private String dateReturn; //date and time user has to return loan
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    private User user;
+    private User user; //user, whom the loan belongs
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "loan", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<Extension> extensions;

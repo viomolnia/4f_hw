@@ -9,6 +9,7 @@ import java.math.BigDecimal;
  */
 public interface LoanFactory {
 
+    //creates loan for user with definite term and amount
     Loan create(int term, BigDecimal amount, Long userId);
 
 

@@ -7,6 +7,7 @@ import io.fourfinanceit.core.domain.user.User;
  */
 public interface UserFactory {
 
+    //create user with name, surname and person code
     User create(String name, String surname, String personCode);
 
 }
