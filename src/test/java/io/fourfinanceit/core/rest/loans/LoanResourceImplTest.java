@@ -4,12 +4,18 @@ package io.fourfinanceit.core.rest.loans;
  * Created by Anna on 06.02.2016.
  */
 
+import io.fourfinanceit.core.commands.extensions.ExtensionConverter;
 import io.fourfinanceit.core.commands.users.UserConverter;
+import io.fourfinanceit.core.database.ExtensionDAO;
 import io.fourfinanceit.core.database.LoanDAO;
 import io.fourfinanceit.core.database.UserDAO;
+import io.fourfinanceit.core.domain.extension.Extension;
+import io.fourfinanceit.core.dto.extension.ExtensionDTO;
 import io.fourfinanceit.core.dto.loan.LoanDTO;
 import io.fourfinanceit.core.dto.user.UserDTO;
 import io.fourfinanceit.core.rest.RESTResourceTest;
+import io.fourfinanceit.core.services.extensions.ExtensionFactory;
+import io.fourfinanceit.core.services.extensions.ExtensionFactoryImpl;
 import io.fourfinanceit.core.services.loans.LoanFactory;
 import io.fourfinanceit.core.services.loans.LoanFactoryImpl;
 import io.fourfinanceit.core.services.users.UserFactory;
@@ -21,12 +27,15 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Iterator;
 
+import static io.fourfinanceit.core.dto.extension.ExtensionDTOBuilder.createExtensionDTO;
 import static io.fourfinanceit.core.dto.loan.LoanDTOBuilder.createLoanDTO;
 import static io.fourfinanceit.core.dto.user.UserDTOBuilder.createUserDTO;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Created by Anna on 22.11.2015.
@@ -39,6 +48,7 @@ public class LoanResourceImplTest extends RESTResourceTest {
 
     @InjectMocks    private UserFactory userFactory = new UserFactoryImpl();
     @InjectMocks    private LoanFactory loanFactory = new LoanFactoryImpl();
+
     @Autowired
     UserConverter userConverter;
 
@@ -49,7 +59,7 @@ public class LoanResourceImplTest extends RESTResourceTest {
     private static final String PERSONCODE15 = "123456-69871";
 
     private static final int TERM = 20;
-    private static final BigDecimal AMOUNT = new BigDecimal("100");
+    private static final BigDecimal AMOUNT = new BigDecimal("100.00");
 
 
     @Test

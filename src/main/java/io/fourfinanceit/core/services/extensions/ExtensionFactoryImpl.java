@@ -35,9 +35,10 @@ public class ExtensionFactoryImpl implements ExtensionFactory{
         Loan loan = loanDAO.getById(loanId);
         //getting date of return of loan
         Calendar calendarDateReturnLoan = Calendar.getInstance();
+        BigDecimal interest = new BigDecimal("0.015");
 
         //getting cost of extension
-        BigDecimal cost = loan.getIndexedAmount().multiply(new BigDecimal("0.015")).multiply(new BigDecimal(weeksCount));
+        BigDecimal cost = loan.getIndexedAmount().multiply(interest).multiply(new BigDecimal(weeksCount));
 
         //if there were not any extensions yet: date of returning loan is extended
         if(loan.getExtensions() == null || loan.getExtensions().size() == 0){

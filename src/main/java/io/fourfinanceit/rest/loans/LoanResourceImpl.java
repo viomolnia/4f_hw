@@ -22,8 +22,9 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import java.math.BigDecimal;
-import java.util.*;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -152,16 +153,6 @@ public class LoanResourceImpl {
         return resultSetDTO;
     }
 
-    @GET
-    @Consumes(APPLICATION_JSON)
-    @Produces(APPLICATION_JSON)
-    @Path("/{loanId}/get_total_debt")
-    public BigDecimal getLoanTotalDebt(@PathParam("loanId") Long loanId){
-        Loan loan = loanService.get(loanId);
-        Set<Extension> loanExtensions = loan.getExtensions();
-        return loan.getIndexedAmount().add(extensionsTotalCost(loanExtensions));
-    }
-
     @POST
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
@@ -183,16 +174,5 @@ public class LoanResourceImpl {
         } else {
             throw new NullPointerException("Can not add extension to loan, that doesn't exist");
         }
-    }
-
-    public static BigDecimal extensionsTotalCost(final Collection c) {
-        final Iterator itr = c.iterator();
-        BigDecimal totalCost = new BigDecimal(0);
-        Extension lastElement = (Extension) itr.next();
-        while(itr.hasNext()) {
-            lastElement= (Extension) itr.next();
-            totalCost = totalCost.add(lastElement.getCost());
-        }
-        return totalCost;
     }
 }
